@@ -1,0 +1,17 @@
+// Default spacing utility
+$spacing: 8;
+
+// Base breakpoint values (used in calculations without `px` value)
+$breakpoint-xs: 0;
+$breakpoint-sm: 600;
+$breakpoint-md: 960;
+$breakpoint-lg: 1264;
+$breakpoint-xl: 1904;
+
+// Colors
+$color-primary: #2a9d8f;
+$color-secondary: #264653;
+$color-error: #e76f51;
+$color-warning: #e9c46a;
+$color-white: #ffffff;
+$color-black: #000000;

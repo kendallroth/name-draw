@@ -1,0 +1,15 @@
+@import "@styles/_variables";
+
+body,
+html {
+  font-family: Mulish;
+  background-color: $color-primary;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@import "typography";

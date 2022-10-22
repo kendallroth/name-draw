@@ -1,0 +1,10 @@
+# Configuration
+.env
+
+# Dependencies
+node_modules
+
+# Build/Output
+dist
+dist-ssr
+coverage
