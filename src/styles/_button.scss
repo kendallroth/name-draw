@@ -1,0 +1,51 @@
+.button {
+  --background-default: #{$color-secondary};
+  --background-hover: #{darken($color-secondary, 5%)};
+  --background-outline: #{lighten($color-secondary, 50%)};
+  --color: #{$color-white};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: #{$button-height}px;
+  padding: 0 spacing(2);
+  border: none;
+  border-radius: spacing(1);
+  color: var(--color);
+  background-color: var(--background-default);
+
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      background-color: var(--background-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--background-outline);
+      outline-offset: -1px;
+      z-index: 2; // Layout above following fields
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  > svg.is-left {
+    margin-left: -#{spacing(0.5)};
+    margin-right: spacing(1);
+  }
+  > svg.is-right {
+    margin-left: spacing(1);
+    margin-right: -#{spacing(0.5)};
+  }
+}
+
+.button.is-icon {
+  width: #{$button-height}px;
+  padding: 0;
+  border-radius: 50%;
+}

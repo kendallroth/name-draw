@@ -1,5 +1,14 @@
 # Name Draw
 
+## Features
+
+- Pair people together
+    - Support exceptions (separate family, partners, etc)
+- Group people together
+    - Customizable group size
+    - Name groups
+    - Support exceptions and/or mandatory pairings
+
 ## Setup
 
 1. Ensure environment variables are populated with valid values
