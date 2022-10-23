@@ -1,34 +1,35 @@
 <template>
-  <VueFinalModal
-    v-bind="$attrs"
-    classes="dialog__backdrop"
-    content-class="dialog__container"
-    :model-value="modelValue"
-  >
-    <div class="dialog__title">
-      {{ title }}
-    </div>
-    <div class="dialog__content">
-      <slot name="default" />
-    </div>
-    <ActionBar class="dialog__actions" right>
-      <button v-if="type === 'confirm'" class="button" @click="handleCancel">
-        {{ cancelText ?? "Cancel" }}
-      </button>
-      <button class="button" :disabled="disabled" @click="handleConfirm">
-        {{ cancelText ?? "Confirm" }}
-      </button>
-    </ActionBar>
-  </VueFinalModal>
+  <VDialog max-width="400" min-width="300" :model-value="modelValue" persistent v-bind="$attrs">
+    <VCard class="w-fill">
+      <VCardTitle>{{ title }}</VCardTitle>
+      <VCardText v-if="$slots.default">
+        <slot />
+      </VCardText>
+      <VCardActions>
+        <ActionBar right>
+          <VBtn v-if="type === 'confirm'" :disabled="loading" @click="handleCancel">
+            {{ cancelText ?? "Cancel" }}
+          </VBtn>
+          <VBtn
+            :color="confirmColor"
+            :disabled="disabled"
+            :loading="loading"
+            @click="handleConfirm"
+          >
+            {{ confirmText ?? "Confirm" }}
+          </VBtn>
+        </ActionBar>
+      </VCardActions>
+    </VCard>
+  </VDialog>
 </template>
 
 <script lang="ts" setup>
-import { VueFinalModal } from "vue-final-modal";
-
 import { ActionBar } from "@components/layout";
 
 type ConfirmDialogProps = {
   cancelText?: string;
+  confirmColor?: string;
   confirmText?: string;
   /** Whether dialog should close immediately upon confirmation */
   closeOnConfirm?: boolean;
@@ -48,6 +49,7 @@ type ConfirmDialogProps = {
 
 const props = withDefaults(defineProps<ConfirmDialogProps>(), {
   cancelText: undefined,
+  confirmColor: "primary",
   confirmText: undefined,
   closeOnConfirm: true,
   disabled: false,
@@ -77,34 +79,13 @@ const handleConfirm = () => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.dialog__backdrop) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #00000055;
-}
-
-:deep(.dialog__container) {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
+// NOTE: Fix for dialog overlay not expanding (needed to expand smaller dialog content)
+.v-dialog :deep(.v-overlay__content) {
   width: 100%;
-  max-height: 90%;
-  margin: 0 1rem;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.25rem;
-  background-color: #fff;
 }
 
-.dialog__title {
-  margin-bottom: spacing(2);
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.dialog__actions {
-  margin-top: spacing(2);
+.v-dialog .v-card-text {
+  padding-top: spacing(0.5) !important;
+  padding-bottom: spacing(0.5) !important;
 }
 </style>

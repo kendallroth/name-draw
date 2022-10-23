@@ -2,7 +2,7 @@
  * SCSS media query generator utilizing Vuetify breakpoints (material design)
  */
 
-@import "@styles/_variables.scss";
+@import "variables";
 
 // Extra-small breakpoints
 @mixin xsDown() {

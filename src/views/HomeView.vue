@@ -1,41 +1,33 @@
 <template>
-  <div class="home">
-    <div class="form">
-      <ConfirmDialog
-        v-model="resetDialog.open.value"
-        title="Reset Form?"
-        @confirm="resetEntriesConfirm"
-      >
-        Are you sure you want to reset the name draw entries?
-      </ConfirmDialog>
-      <div class="form__names">
-        <NameInput
-          v-for="(field, idx) in nameEntryFields"
-          :key="field.value.id ?? field.key"
-          ref="nameInputRefs"
-          :alone="nameEntryFields.length <= 1"
-          :name="`names[${idx}]`"
-          @move="(direction) => handleMove(direction, idx)"
-          @remove="nameEntryHelpers.remove(idx)"
-        />
-      </div>
-      <ActionBar class="form__actions">
-        <template #left>
-          <button class="button" @click="addEntry">
-            <SvgIcon class="is-left" :path="mdiAdd" />
-            Add
-          </button>
-          <button class="button" disabled>Add Many</button>
-          <button class="button" @click="resetEntriesPrompt">Reset</button>
-        </template>
-        <template #right>
-          <button class="button" @click="drawNames">
-            <SvgIcon class="is-left" :path="mdiGenerate" />
-            Draw Names!
-          </button>
-        </template>
-      </ActionBar>
+  <div class="form">
+    <ConfirmDialog
+      v-model="resetDialog.open.value"
+      confirm-color="error"
+      title="Reset Form?"
+      @confirm="resetEntries"
+    >
+      Are you sure you want to reset the name draw entries?
+    </ConfirmDialog>
+    <div class="form__names elevation-2">
+      <NameInput
+        v-for="(field, idx) in nameEntryFields"
+        :key="field.value.id ?? field.key"
+        ref="nameInputRefs"
+        :alone="nameEntryFields.length <= 1"
+        :name="`names[${idx}]`"
+        @move="(direction) => handleMove(direction, idx)"
+        @remove="nameEntryHelpers.remove(idx)"
+      />
     </div>
+    <ActionBar class="form__actions">
+      <template #left>
+        <VBtn color="secondary" :prepend-icon="mdiAdd" @click="addEntry">Add</VBtn>
+      </template>
+      <template #right>
+        <VBtn color="warning" variant="text" @click="resetDialog.show()">Reset</VBtn>
+        <VBtn color="secondary" :prepend-icon="mdiGenerate" @click="drawNames">Draw Names!</VBtn>
+      </template>
+    </ActionBar>
   </div>
 </template>
 
@@ -48,7 +40,6 @@ import * as yup from "yup";
 
 import { ConfirmDialog } from "@components/dialog";
 import { NameInput } from "@components/form";
-import { SvgIcon } from "@components/icon";
 import { ActionBar } from "@components/layout";
 import { useDialog } from "@composables";
 
@@ -59,8 +50,6 @@ type NameEntry = {
 };
 
 const resetDialog = useDialog();
-
-const nameInputRefs = ref<typeof NameInput[]>([]);
 
 const createNameEntry = (base: Partial<NameEntry> = {}): NameEntry => ({
   exclusions: [],
@@ -96,11 +85,7 @@ const addEntry = () => {
   nameEntryHelpers.push(createNameEntry());
 };
 
-const resetEntriesPrompt = () => {
-  resetDialog.show();
-};
-
-const resetEntriesConfirm = () => {
+const resetEntries = () => {
   handleReset();
 };
 
@@ -108,6 +93,8 @@ const drawNames = handleSubmit(async (data) => {
   console.log("Submitted", data);
   alert(`Names: ${data.names.map((n) => n.name).join(", ")}`);
 });
+
+const nameInputRefs = ref<typeof NameInput[]>([]);
 
 /** Allow moving between previous/next fields with up/down arrow keys */
 const handleMove = (direction: "next" | "previous", idx: number) => {
@@ -134,18 +121,13 @@ const handleMove = (direction: "next" | "previous", idx: number) => {
 </script>
 
 <style lang="scss" scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .form {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 600px;
+  margin: spacing(4) auto;
 }
 
 .form__names,
@@ -160,7 +142,6 @@ const handleMove = (direction: "next" | "previous", idx: number) => {
 
 <style lang="scss">
 .form__names {
-  @include elevate(2);
   border-radius: spacing(1);
 
   .name-input {
@@ -169,7 +150,7 @@ const handleMove = (direction: "next" | "previous", idx: number) => {
         border-top-left-radius: spacing(1);
       }
       button:last-of-type {
-        border-top-right-radius: spacing(1);
+        border-top-right-radius: spacing(1) !important;
       }
     }
     &:last-child {
@@ -177,7 +158,7 @@ const handleMove = (direction: "next" | "previous", idx: number) => {
         border-bottom-left-radius: spacing(1);
       }
       button:last-of-type {
-        border-bottom-right-radius: spacing(1);
+        border-bottom-right-radius: spacing(1) !important;
       }
     }
     &:not(:last-child) {

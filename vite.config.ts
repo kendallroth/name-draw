@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from "node:url";
 
 import vue from "@vitejs/plugin-vue";
 import { defineConfig, loadEnv } from "vite";
+import vuetify from "vite-plugin-vuetify";
 
 export default defineConfig(({ mode }) => {
   const envConfig = loadEnv(mode, process.cwd());
@@ -18,7 +19,6 @@ export default defineConfig(({ mode }) => {
             return `
               @import "@styles/_breakpoints.scss";
               @import "@styles/_functions.scss";
-              @import "@styles/_mixins.scss";
               @import "@styles/_variables.scss";
               ${source}
             `;
@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [vue()],
+    plugins: [vue(), vuetify({ autoImport: true })],
     resolve: {
       alias: {
         "@assets": getPath("assets"),

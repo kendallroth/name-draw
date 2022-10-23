@@ -1,13 +1,16 @@
 <template>
   <div class="name-input">
     <div class="name-input__input-wrapper">
-      <input
+      <VTextField
         ref="inputRef"
         v-model.trim="nameValue"
         class="name-input__input"
+        density="compact"
         :disabled="disabled"
+        hide-details
         placeholder="Name"
-        type="text"
+        single-line
+        variant="outlined"
         @blur="nameField.handleBlur"
         @keydown.down="emit('move', 'next')"
         @keydown.enter="emit('move', 'next')"
@@ -15,12 +18,14 @@
       />
       <SvgIcon v-if="nameErrors.length" class="name-input__input__error" :path="mdiError" />
     </div>
-    <button class="button is-icon" :disabled="disabled || true">
-      <SvgIcon :path="mdiExclude" />
-    </button>
-    <button class="button is-icon" :disabled="disabled || alone" @click="emit('remove')">
-      <SvgIcon :path="mdiDelete" />
-    </button>
+    <VBtn :disabled="disabled || true" :icon="mdiExclude" :rounded="0" size="small" />
+    <VBtn
+      :disabled="disabled || alone"
+      :icon="mdiDelete"
+      :rounded="0"
+      size="small"
+      @click="emit('remove')"
+    />
   </div>
 </template>
 
@@ -79,24 +84,11 @@ $input-height: 40px;
   width: 100%;
 }
 
-.name-input__input {
-  flex-grow: 1;
-  height: $input-height;
-  padding: 0 spacing(1.5);
-  border: none;
-  outline: none;
-
-  &:focus {
-    outline: 2px solid $color-secondary;
-    outline-offset: -1px;
-    z-index: 2; // Layout above following fields
-  }
-}
-
 .name-input__input-wrapper {
+  position: relative;
   display: flex;
   flex-grow: 1;
-  position: relative;
+  z-index: 2; // Layout above following buttons (for outline)
 }
 
 .name-input__input__error {
@@ -107,23 +99,18 @@ $input-height: 40px;
   z-index: 2;
 }
 
-.button.is-icon {
-  --background-default: #{lighten($color-secondary, 70%)};
-  --background-hover: #{lighten($color-secondary, 65%)};
-  --background-outline: #{darken($color-secondary, 5%)};
-  --color: #{$color-secondary};
+.name-input__input {
+  :deep(.v-field__input) {
+    background-color: $color-white;
 
-  height: $input-height;
-  width: $input-height;
-  border-radius: 0;
-
-  &:disabled {
-    opacity: 1;
-    --background-default: #{lighten($color-secondary, 65%)};
-
-    svg {
-      opacity: 0.75;
+    &:focus {
+      outline: 2px solid $color-secondary;
+      outline-offset: -1px;
     }
+  }
+
+  :deep(.v-field__outline) {
+    display: none;
   }
 }
 </style>

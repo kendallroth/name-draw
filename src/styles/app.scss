@@ -1,10 +1,9 @@
-@import "@styles/_variables";
-@import "@styles/_button";
+@import "variables";
+@import "typography";
 
 body,
 html {
   font-family: Mulish;
-  background-color: $color-primary;
 }
 
 #app {
@@ -12,5 +11,3 @@ html {
   display: flex;
   flex-direction: column;
 }
-
-@import "typography";
