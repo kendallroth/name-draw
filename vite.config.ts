@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
             return `
               @import "@styles/_breakpoints.scss";
               @import "@styles/_functions.scss";
+              @import "@styles/_mixins.scss";
               @import "@styles/_variables.scss";
               ${source}
             `;

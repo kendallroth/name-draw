@@ -45,7 +45,7 @@ module.exports = {
     // Returning an async call within try/catch requires an 'await' keyword to be able to handle errors!
     "@typescript-eslint/return-await": ["error", "in-try-catch"],
     // Omitting curly braces for single-line statements can lead to bugs/reduced clarity
-    curly: "warn",
+    curly: "off",
     // Prevent (and combine) duplicate import declarations
     "import/no-duplicates": "warn",
     // Sort imports into alphabetical groups (sorting import keys is handled by 'sort-imports')

@@ -2,12 +2,16 @@
   <div class="name-input">
     <div class="name-input__input-wrapper">
       <input
-        v-model="nameValue"
+        ref="inputRef"
+        v-model.trim="nameValue"
         class="name-input__input"
         :disabled="disabled"
         placeholder="Name"
         type="text"
         @blur="nameField.handleBlur"
+        @keydown.down="emit('move', 'next')"
+        @keydown.enter="emit('move', 'next')"
+        @keydown.up="emit('move', 'previous')"
       />
       <SvgIcon v-if="nameErrors.length" class="name-input__input__error" :path="mdiError" />
     </div>
@@ -27,7 +31,7 @@ import {
   mdiAccountMultipleRemove as mdiExclude,
 } from "@mdi/js";
 import { useField } from "vee-validate";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 import { SvgIcon } from "@components/icon";
 
@@ -46,7 +50,15 @@ const props = withDefaults(defineProps<NameInputProps>(), {
 
 const emit = defineEmits<{
   (e: "remove"): void;
+  (e: "move", direction: "next" | "previous"): void;
 }>();
+
+defineExpose({
+  focus: () => inputRef.value?.focus(),
+  value: computed(() => nameValue.value),
+});
+
+const inputRef = ref<HTMLInputElement | null>(null);
 
 const fieldName = computed(() => `${props.name}.name`);
 const {
@@ -108,6 +120,10 @@ $input-height: 40px;
   &:disabled {
     opacity: 1;
     --background-default: #{lighten($color-secondary, 65%)};
+
+    svg {
+      opacity: 0.75;
+    }
   }
 }
 </style>
