@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 
+import directivesPlugin from "@plugins/directives";
 import vuetifyPlugin from "@plugins/vuetify";
 import { rootPiniaStore } from "@stores";
 
@@ -20,6 +21,7 @@ const app = createApp(App);
 
 app.use(rootPiniaStore);
 app.use(vuetifyPlugin);
+app.use(directivesPlugin);
 app.use(router);
 
 app.mount("#app");

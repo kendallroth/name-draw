@@ -3,6 +3,7 @@
   "include": ["src/types/shims/env.d.tss/shims/env.d.ts", "src/**/*", "src/**/*.vue", "src/**/*.json", "package.json"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
+    "lib": ["ES2020", "DOM"],
     "composite": true,
     "baseUrl": ".",
     "strict": true,
@@ -24,6 +25,7 @@
       "@styles/*": ["src/styles/*"],
       "@typings": ["src/types"],
       "@typings/*": ["src/types/*"],
+      "@utilities": ["src/utilities"],
       "@utilities/*": ["src/utilities/*"],
       "@views": ["src/views"],
       "@views/*": ["src/views/*"]

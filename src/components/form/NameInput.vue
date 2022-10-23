@@ -6,9 +6,9 @@
         v-model.trim="nameValue"
         class="name-input__input"
         density="compact"
-        :disabled="disabled"
         hide-details
         placeholder="Name"
+        :readonly="disabled"
         single-line
         variant="outlined"
         @blur="nameField.handleBlur"

@@ -48,5 +48,12 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0",
       port: parseInt(envConfig.VITE_PORT, 10),
     },
+    test: {
+      coverage: {
+        reporter: ["text", "json-summary", "json"],
+      },
+      environment: "happy-dom",
+      globals: true,
+    },
   };
 });
